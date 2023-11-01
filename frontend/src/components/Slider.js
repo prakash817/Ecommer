@@ -42,6 +42,7 @@ const Slide = styled.div`
   background-color: ${(props) => props.bg};
   display: flex;
   align-items: center;
+  transition: all 1.5s ease;
   transform: translateX(${(props) => props.sliderIndex * -100}vw);
 `;
 
