@@ -56,6 +56,7 @@ const ProductList = () => {
             <Option>L</Option>
             <Option>M</Option>
             <Option>S</Option>
+            <Option>XS</Option>
           </Select>
         </Filter>
         <Filter>
