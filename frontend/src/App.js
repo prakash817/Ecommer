@@ -5,6 +5,7 @@ import SingleProduct from "./pages/SingleProduct";
 import Login from "./pages/Login";
 
 function App() {
+  console.log("main ");
   return (
     <>
       {/* <Home />; */}
