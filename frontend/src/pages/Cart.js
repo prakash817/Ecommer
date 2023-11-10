@@ -95,7 +95,7 @@ const Summery = styled.div`
   flex: 1;
   border: 1px solid lightgray;
   padding: 20px;
-  height: 60vh;
+  height: 55vh;
 `;
 
 const SummeryTitle = styled.h1``;
