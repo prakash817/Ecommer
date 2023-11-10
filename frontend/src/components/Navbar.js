@@ -2,16 +2,23 @@ import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
+import { mobile } from "../respossive";
 
 const Container = styled.div`
   height: 60px;
-  /* border: 1px solid black; */
+  ${mobile({
+    height:"50px"
+  })}
 `;
+
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${mobile({
+    padding: "10px",
+  })}
 `;
 const Left = styled.div`
   flex: 1;
@@ -22,6 +29,9 @@ const Left = styled.div`
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
+  ${mobile({
+    display: "none",
+  })}
 `;
 const SearchContainer = styled.span`
   margin-left: 20px;
@@ -32,6 +42,9 @@ const SearchContainer = styled.span`
 const SearchInput = styled.input`
   border: none;
   padding: 5px 10px;
+  ${mobile({
+    width: "50px",
+  })}
 `;
 
 const Center = styled.div`
@@ -39,17 +52,31 @@ const Center = styled.div`
   text-align: center;
 `;
 
-const MyLogo = styled.h1``;
+const MyLogo = styled.h1`
+  ${mobile({
+    fontSize: "24px",
+    marginLeft: "5px",
+  })}
+`;
 
 const Right = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: right;
+  ${mobile({
+    flex: 2,
+    justifyContent: Center,
+  })}
 `;
 const MenuItem = styled.div`
   margin-left: 20px;
   cursor: pointer;
+  ${mobile({
+    marginLeft: "10px",
+    // flex: 2,
+    fontSize: "12px",
+  })}
 `;
 
 const Navbar = () => {

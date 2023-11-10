@@ -9,11 +9,11 @@ function App() {
   console.log("main ");
   return (
     <>
-      {/* <Home />;
-      <ProductList />
-      <SingleProduct />
-      <Register />
-      <Login /> */}
+      {/* <Home />; */}
+      {/* <ProductList /> */}
+      {/* <SingleProduct /> */}
+      {/* <Register /> */}
+      {/* <Login /> */}
       <Cart />
     </>
   );
