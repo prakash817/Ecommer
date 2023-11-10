@@ -2,12 +2,16 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { sliderData } from "../data";
+import { mobile } from "../respossive";
 
 const Container = styled.div`
   /* background-color: coral; */
   height: 100vh;
   width: 100%;
   position: relative;
+  ${mobile({
+    display: "none",
+  })}
 `;
 
 const Arrow = styled.div`

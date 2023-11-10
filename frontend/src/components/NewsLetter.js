@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Send } from "@mui/icons-material";
 import React from "react";
+import { mobile } from "../respossive";
 
 const Container = styled.div`
   height: 60vh;
@@ -17,6 +18,11 @@ const Desc = styled.div`
   font-size: 24px;
   font-weight: 500;
   margin: 40px 0;
+
+  ${mobile({
+    textAlign: "center",
+    padding: "8px",
+  })}
 `;
 const InputCOntainer = styled.div`
   background-color: white;
@@ -25,6 +31,9 @@ const InputCOntainer = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid teal;
+  ${mobile({
+    width: "80%",
+  })}
 `;
 const Input = styled.input`
   flex: 8;

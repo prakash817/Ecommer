@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Announcement from "../components/Announcement";
 import Product from "../components/Product";
 import NewsLetter from "../components/NewsLetter";
+import { mobile } from "../respossive";
 
 const Container = styled.div``;
 const Title = styled.h2`
@@ -15,7 +16,12 @@ const ProductFilter = styled.div`
   justify-content: space-between;
   margin: 20px;
 `;
-const Filter = styled.div``;
+const Filter = styled.div`
+  ${mobile({
+    display: "flex",
+    flexDirection: "column",
+  })}
+`;
 const FilterText = styled.span`
   margin-right: 20px;
   font-size: 20px;
@@ -24,6 +30,9 @@ const FilterText = styled.span`
 const Select = styled.select`
   margin-right: 20px;
   padding: 10px;
+  ${mobile({
+    margin: "10px 0",
+  })}
 `;
 const Option = styled.option``;
 

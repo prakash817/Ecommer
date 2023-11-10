@@ -10,11 +10,16 @@ import {
   WhatsApp,
 } from "@mui/icons-material";
 import React from "react";
+import { mobile } from "../respossive";
 
 const Container = styled.div`
   display: flex;
   height: 70vh;
   background-color: #cfd9df;
+  ${mobile({
+    flexDirection: "column",
+    height: "120vh",
+  })}
 `;
 const Left = styled.div`
   padding: 20px;
@@ -24,9 +29,15 @@ const Left = styled.div`
 const Logo = styled.h1`
   font-size: 40px;
   margin-bottom: 40px;
+  ${mobile({
+    marginBottom: "20px",
+  })}
 `;
 const Desc = styled.p`
   margin-bottom: 40px;
+  ${mobile({
+    marginBottom: "20px",
+  })}
 `;
 const SocialConatainer = styled.div`
   display: flex;
@@ -66,6 +77,9 @@ const ListItem = styled.li`
 const Right = styled.div`
   padding: 20px;
   flex: 1;
+  ${mobile({
+    flex: 2,
+  })}
 `;
 
 const ContactItem = styled.div`
