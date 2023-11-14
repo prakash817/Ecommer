@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../respossive";
+import { login } from "../redux/apiCall";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100vw;
@@ -50,23 +52,47 @@ const Button = styled.button`
   color: white;
   font-size: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
 `;
 
 const Link = styled.a`
   font-size: 12px;
   text-decoration: underline;
-  cursor: pointer;
   margin: 5px 0;
 `;
 const Register = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const user = { username, password };
+    login(dispatch, user);
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>Create An Account </Title>
         <Form>
-          <Input placeholder="UserName" />
-          <Input placeholder="Password" />
-          <Button> LOGIN </Button>
+          <Input
+            type="text"
+            placeholder="UserName"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleLogin} disabled={isFetching}>
+            LOGIN
+          </Button>
+          {error && <Link> SOMETHING WENT WRONG </Link>}
           <Link>DO NOT YOU REMEMBER THE PASSWORD ? </Link>
           <Link> CREATE A NEW ACCOUNT </Link>
         </Form>

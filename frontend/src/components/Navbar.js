@@ -3,8 +3,9 @@ import { Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../respossive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/userRedux";
 
 const Container = styled.div`
   height: 60px;
@@ -83,6 +84,11 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const { quantity } = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout(null));
+  };
   return (
     <Container>
       <Wrapper>
@@ -98,8 +104,17 @@ const Navbar = () => {
           <MyLogo>PRAKASH.</MyLogo>
         </Center>
         <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>Login</MenuItem>
+          <MenuItem>
+            <Link to={"/register"}>{!user && "Register"}</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to={"/login"}>{!user && "Login"}</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to={"/login"} onClick={handleLogout}>
+              {user && "Logout"}
+            </Link>
+          </MenuItem>
           <MenuItem>
             <Link to={"/cart"}>
               <Badge badgeContent={quantity ? quantity : ""}>

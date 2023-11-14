@@ -7,10 +7,11 @@ import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Success from "./pages/Success";
+import { useSelector } from "react-redux";
 
 function App() {
-  console.log("main ");
-  const user = true;
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user, "main");
   return (
     <>
       <BrowserRouter>

@@ -48,7 +48,7 @@ const Product = ({ cat, filters, sort }) => {
   useEffect(() => {
     const fData = products.filter(
       (item) =>
-        item.size.includes(filters.size) || item.color.includes(filters.color)
+        item.size.includes(filters?.size) || item.color.includes(filters?.color)
     );
     // console.log(fData, "filtersd");
     setFilteredProducts(fData);
@@ -66,9 +66,6 @@ const Product = ({ cat, filters, sort }) => {
 
     setFilteredProducts(sortedData);
   }, [sort]);
-
-  console.log(products, "ulf");
-  console.log(filteredProducts, "fff");
 
   return (
     <Container>
