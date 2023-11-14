@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import axios, { Axios } from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Payment = () => {
-  const PUBLISHEDKEY =
-    "pk_test_51OBcCkSAakgfJaHg0amF84Ys0OKmjlkelVJel84PyndEPlDqxxYSX4Vb1RSHq1JzRrukw8CPiCfZsRp1MimUUKDw00x4icEqEV";
+const Payment = ({ total }) => {
   const [stripeToken, setStripeToken] = useState(null);
+  const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
 
   const onToken = (token) => {
     setStripeToken(token);
+    console.log("stripe token", token);
   };
 
   useEffect(() => {
-    console.log(stripeToken, "ontoken fn");
-
     const makeRequest = async () => {
       try {
         const res = await axios.post(
           "http://localhost:5000/api/checkout/payment",
           {
             tokenId: stripeToken.id,
-            amount: 2000,
+            amount: cart.total,
           }
         );
+        navigate("/success", { state: cart });
         console.log(res.data, "frontend");
       } catch (error) {
+        navigate("/success", { state: cart });
         console.log(error);
       }
     };
@@ -33,24 +36,28 @@ const Payment = () => {
   }, [stripeToken]);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    <StripeCheckout
+      stripeKey={
+        "pk_test_51OBcCkSAakgfJaHg0amF84Ys0OKmjlkelVJel84PyndEPlDqxxYSX4Vb1RSHq1JzRrukw8CPiCfZsRp1MimUUKDw00x4icEqEV"
+      }
+      name="Prakash"
+      description={`your total  is $ ${total}`}
+      amount={total * 100}
+      token={onToken}
     >
-      <StripeCheckout
-        stripeKey={PUBLISHEDKEY}
-        name="Prakash"
-        description="your total  is $30"
-        amount={3000}
-        token={onToken}
+      <button
+        style={{
+          cursor: "pointer",
+          width: "100%",
+          background: "transparent",
+          border: "none",
+          fontWeight: 400,
+          fontSize: "20px",
+        }}
       >
-        <button style={{ padding: "10px", cursor: "pointer" }}> Payment</button>
-      </StripeCheckout>
-    </div>
+        Payment
+      </button>
+    </StripeCheckout>
   );
 };
 

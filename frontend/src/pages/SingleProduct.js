@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
@@ -6,6 +6,10 @@ import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../respossive";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -112,52 +116,77 @@ const AddCartButton = styled.button`
 `;
 
 const SingleProduct = () => {
+  const { id } = useParams();
+  const [singleProd, setSingleProd] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getSingleProd = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/products/find/${id}`
+        );
+        setSingleProd(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSingleProd();
+  }, [id]);
+
+  const handleQuantity = (q) => {
+    if (q == "plus") {
+      setQuantity(quantity + 1);
+    } else if (q == "minus" && quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleCart = () => {
+    dispatch(addProduct({ ...singleProd, quantity, size, color }));
+    // console.log(singleProd, "ss");
+  };
+  console.log(singleProd);
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" alt="product pic" />
+          <Image src={singleProd.img} alt={singleProd.title} />
         </ImageContainer>
         <InfoContainer>
-          <Title> Dress</Title>
-          <Desc>
-            lorem-ipsum.20 lorem-ipsum.20 lorem-ipsum.20 lorem-ipsum.20
-            lorem-ipsum.20 lorem-ipsum.20 lorem-ipsum.20 lorem-ipsum.20
-            lorem-ipsum.20
-          </Desc>
-          <Price> price : $50</Price>
+          <Title> {singleProd.title}</Title>
+          <Desc>{singleProd.desc}</Desc>
+          <Price> price : $ {singleProd.price}</Price>
 
           <FilterContainer>
             <Filter>
               <FilterTitle>Color : </FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="red" />
+              {singleProd?.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
-              <Select>
-                <Option disabled selected>
-                  Size
-                </Option>
-                <Option>XLL</Option>
-                <Option>XL</Option>
-                <Option>L</Option>
-                <Option>M</Option>
-                <Option>S</Option>
-                <Option>XS</Option>
+              <Select onChange={(e) => setSize(e.target.value)}>
+                {singleProd?.size?.map((s) => (
+                  <Option key={s}>{s}</Option>
+                ))}
               </Select>
             </Filter>
           </FilterContainer>
 
           <AddContainer>
             <AddQuantity>
-              <Remove />
-              <Quantity>1</Quantity>
-              <Add />
+              <Remove onClick={() => handleQuantity("minus")} />
+              <Quantity>{quantity}</Quantity>
+              <Add onClick={() => handleQuantity("plus")} />
             </AddQuantity>
-            <AddCartButton>Add To Cart</AddCartButton>
+            <AddCartButton onClick={handleCart}>Add To Cart</AddCartButton>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

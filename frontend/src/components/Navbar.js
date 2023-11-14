@@ -3,11 +3,13 @@ import { Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../respossive";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 60px;
   ${mobile({
-    height:"50px"
+    height: "50px",
   })}
 `;
 
@@ -80,6 +82,7 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const { quantity } = useSelector((state) => state.cart);
   return (
     <Container>
       <Wrapper>
@@ -98,9 +101,11 @@ const Navbar = () => {
           <MenuItem>Register</MenuItem>
           <MenuItem>Login</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4}>
-              <ShoppingCartOutlined />
-            </Badge>
+            <Link to={"/cart"}>
+              <Badge badgeContent={quantity ? quantity : ""}>
+                <ShoppingCartOutlined />
+              </Badge>
+            </Link>
           </MenuItem>
         </Right>
       </Wrapper>

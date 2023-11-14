@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import styled from "styled-components";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../respossive";
+import Payment from "./Payment";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -136,6 +138,8 @@ const SummeryButton = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  console.log(cart, "crta");
   return (
     <Container>
       <Navbar />
@@ -152,95 +156,49 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Name</b> Shoe
-                  </ProductName>
-                  <ProductId>
-                    <b>Id</b> 85285811
-                  </ProductId>
+            {cart.products.length ? (
+              cart.products.map((product) => (
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.img} />
+                    <Details>
+                      <ProductName>
+                        <b>Name</b> {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <b>Id</b> {product._id}
+                      </ProductId>
 
-                  <ProductColor color="red"> </ProductColor>
+                      <ProductColor color={product.color}> </ProductColor>
 
-                  <ProductSize>
-                    <b>Size</b> 20.6
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 40</ProductPrice>
-              </PriceDetail>
-            </Product>
+                      <ProductSize>
+                        <b>Size</b> {product.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount> {product.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
+                    <ProductPrice>$ {product.price}</ProductPrice>
+                  </PriceDetail>
+                </Product>
+              ))
+            ) : (
+              <>
+                <hr />
+                <h1>Cart is Empty</h1>
+              </>
+            )}
             <hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Name</b> Shoe
-                  </ProductName>
-                  <ProductId>
-                    <b>Id</b> 85285811
-                  </ProductId>
-
-                  <ProductColor color="red"> </ProductColor>
-
-                  <ProductSize>
-                    <b>Size</b> 20.6
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 40</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Name</b> Shoe
-                  </ProductName>
-                  <ProductId>
-                    <b>Id</b> 85285811
-                  </ProductId>
-
-                  <ProductColor color="red"> </ProductColor>
-
-                  <ProductSize>
-                    <b>Size</b> 20.6
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 40</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summery>
             <SummeryTitle>YOUR ORDERR</SummeryTitle>
             <SummeryItem>
               <SummeryItemText> Subtotal </SummeryItemText>
-              <SummeryItemPrice> $ 40 </SummeryItemPrice>
+              <SummeryItemPrice> $ {cart.total} </SummeryItemPrice>
             </SummeryItem>
             <SummeryItem>
               <SummeryItemText> Estimated Shipping </SummeryItemText>
@@ -253,9 +211,11 @@ const Cart = () => {
             <hr />
             <SummeryItem type="total">
               <SummeryItemText> Total </SummeryItemText>
-              <SummeryItemPrice> $ 80 </SummeryItemPrice>
+              <SummeryItemPrice> $ {cart.total} </SummeryItemPrice>
             </SummeryItem>
-            <SummeryButton>CHECKOUT NOW</SummeryButton>
+            <SummeryButton>
+              <Payment total={cart.total} />
+            </SummeryButton>
           </Summery>
         </Bottom>
       </Wrapper>

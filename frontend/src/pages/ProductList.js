@@ -39,35 +39,31 @@ const Option = styled.option``;
 
 const ProductList = () => {
   const { category } = useParams();
-  const [filter, setFilter] = useState({});
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("latest");
 
   const handleFilter = (e) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
+    setFilters({ ...filters, [e.target.name]: e.target.value });
   };
-  console.log("cehcek", filter);
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Title>DRESSES</Title>
+      <Title>{category.toUpperCase()}</Title>
       <ProductFilter>
         <Filter>
           <FilterText>Filter Products :</FilterText>
           <Select name="color" onChange={handleFilter}>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Pink</Option>
-            <Option>Green</Option>
+            <Option value="">Color</Option>
+            <Option value="white">White</Option>
+            <Option value="red">Red</Option>
+            <Option value="blue">Blue</Option>
+            <Option value="yellow">Yellow</Option>
+            <Option value="pink">Pink</Option>
+            <Option value="green">Green</Option>
           </Select>
           <Select name="size" onChange={handleFilter}>
-            <Option disabled selected>
-              Size
-            </Option>
+            <Option>Size</Option>
             <Option>XLL</Option>
             <Option>XL</Option>
             <Option>L</Option>
@@ -78,16 +74,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText> Sort Products : </FilterText>
-          <Select>
-            <Option selected disabled>
-              Newest
-            </Option>
-            <Option> Price (ASC) </Option>
-            <Option> Price (DSC) </Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option value={"latest"}>Latest</Option>
+            <Option value={"asc"}> Price (ASC) </Option>
+            <Option value={"dsc"}> Price (DSC) </Option>
           </Select>
         </Filter>
       </ProductFilter>
-      <Product />
+      <Product cat={category} filters={filters} sort={sort} />
       <NewsLetter />
       <Footer />
     </Container>
