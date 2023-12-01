@@ -14,7 +14,7 @@ const stripeRoute = require("./routes/stripe");
 
 app.use(cors());
 app.use(express.json());
-dotenv.config();
+dotenv.config({path:".env"});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
